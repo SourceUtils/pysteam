@@ -3,7 +3,7 @@
 # steam.key = "303E8E7C12216D62FD8F522602CE141C"
 # dir(steam)
 #from inspect import getcallargs # getcallargs(f, 1, 2, 3)
-import requests, json
+import requests, json, re
 
 key = None
 
