@@ -7,6 +7,22 @@ import requests, json
 
 key = None
 
+aid_max = 2**32-1
+
+def tta(x):
+	g = re.match("(?i)STEAM_(.*):(.*):(.*)", x).groups()
+	return (g[2] << 1) + g[1]
+
+aid   = lambda x: 0xffffffff        & x # from 64 bit
+id64  = lambda x: 0x110000100000000 | x # from account id
+
+tt64  = lambda x: id64(tta(x))
+
+start = id64(1) # 76561197960265728
+end   = id64(aid_max) # 81064793292668927
+
+att   = lambda x: (x & 1, x >> 1)
+
 def execute(interface, method, http="GET", version=1, *args, **kwargs):
 	if key != None:
 		kwargs["key"] = key
