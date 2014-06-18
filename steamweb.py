@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
-import steam
-steam.key = <Web API key>
-steam.init()
+Usage:
+import steamweb
+steamweb.init(<Web API key>)
 dir(steam)
+help(steamweb.ISomething.Method)
 """
 
 import requests, json, re
@@ -47,7 +48,8 @@ def create_method(interface, method, http, version, doc):
 	fn.__doc__ = doc
 	return fn
 
-def init():
+def init(key):
+	globals()['key'] = key
 	for interface in execute(interface="ISteamWebAPIUtil", method="GetSupportedAPIList")["apilist"]["interfaces"]:
 		intname = str(interface["name"])
 		methods = {}
@@ -66,6 +68,6 @@ def init():
 				docstrings.append("version %d:\n" % version + "\n".join(arg_gen))
 			documentation = "\n\n".join(x for x in docstrings)
 			# always use the latest version if not specified
-			print("steam." + intname + "." + methname + "() = " + httpmethod)
+			print("steamweb." + intname + "." + methname + "() = " + httpmethod)
 			methods[methname] = create_method(intname, methname, httpmethod, version, documentation)
 		globals()[intname] = type(intname, (object,), methods)()
