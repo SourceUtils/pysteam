@@ -2,7 +2,7 @@
 """
 Usage:
 import steamweb
-steamweb.init(<Web API key>)
+steamweb.init([Web API key])
 dir(steam)
 help(steamweb.ISomething.Method)
 """
@@ -48,7 +48,7 @@ def create_method(interface, method, http, version, doc):
 	fn.__doc__ = doc
 	return fn
 
-def init(key):
+def init(key=None):
 	globals()['key'] = key
 	for interface in execute(interface="ISteamWebAPIUtil", method="GetSupportedAPIList")["apilist"]["interfaces"]:
 		intname = str(interface["name"])
